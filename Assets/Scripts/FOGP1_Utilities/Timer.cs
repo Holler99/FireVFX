@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace FOGP1_Utilities
 {
     public class Timer : MonoBehaviour
     {
+        public UnityEvent timeOut;
         [Tooltip("When AutoStart is set to true the timer will start running when the GameObject loads.")]
         public bool autoStart = false;
         public bool autoRestart = false;
@@ -20,14 +22,24 @@ namespace FOGP1_Utilities
         void Start()
         {
             if (autoStart)
-                StartTimer();
+                StartTimer(countDownTime, autoRestart);
 
         }
 
         // Update is called once per frame
         void Update()
         {
+            if (timeLeft > 0.0f)
+            {
+                m_timeLeft -= (Time.deltaTime * timeScale);
 
+                if(timeLeft <= 0.0f)
+                {
+                    timeOut.Invoke();
+                    if (autoRestart)
+                        StartTimer(countDownTime, autoRestart);
+                }
+            }
         }
 
         /// <summary>
