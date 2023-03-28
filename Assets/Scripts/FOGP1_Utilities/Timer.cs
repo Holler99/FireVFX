@@ -57,6 +57,20 @@ namespace FOGP1_Utilities
 
             m_timeLeft = countDownTime;
         }
+
+        public void StopTimer()
+        {
+            m_timeLeft = 0.0f
+        }
+
+        public void AddTimer(float _time)
+        {
+            float prevTimeLeft = m_timeLeft;
+            m_timeLeft += _time;
+
+            if (prevTimeLeft > 0.0f && m_timeLeft <= 0.0f)
+                timeOut.Invoke();
+        }
     }
 
 }
