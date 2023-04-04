@@ -8,33 +8,52 @@ namespace FOGP1_Utilities.Manager
     {
         public static ScoreManager instance;
         public UpdateScoreEvent updateScore;
-        public int score { get; set private; }
-        public int multiplier { get; set private; }
+        public int score { get; private set; }
+        public int multiplier { get; private set; }
 
-    void Awake()
-    {
-        if (instance == null)
+        void Awake()
         {
-            instance = this;
-            DontDestroyOnLoad(this);
+            if (instance == null)
+            {
+                instance = this;
+                DontDestroyOnLoad(this);
+            }
+            else
+            {
+                score = 0;
+                Destroy(this);
+                return;
+            }
+
+            score = 0;
+            multiplier = 1;
+
+            if (updateScore == null)
+            {
+                updateScore = new UpdateScoreEvent();
+            }
         }
-        else
+
+        public void AddPoints(int _amount)
+        {
+            AddPoints(_amount, null);
+        }
+
+        public void AddPoints(int _amount, Vector3? _location = null)
+        {
+            score += (_amount * multiplier);
+
+            updateScore.Invoke(new ScoreInfo(score, _amount, _location));
+        }
+
+        public void ResetScore()
         {
             score = 0;
-            Destroy(this);
-            return;
-        }
+            multiplier = 1;
 
-        score = 0;
-        multiplier = 1;
-        
-        if (UpdateScore == null)
-        {
-        UpdateScore = new UpdateScoreEvent();
+            updateScore.Invoke(new ScoreInfo(score, 0, null));
         }
-}
-
-}
+    }
 
     public class ScoreInfo
     {
@@ -44,14 +63,13 @@ namespace FOGP1_Utilities.Manager
 
         public ScoreInfo(int _score, int _delta, Vector3? _location)
         {
-            socre = _score;
+            score = _score;
             delta = _delta;
             location = _location;
-
-
         }
     }
 
     [System.Serializable]
-    public class UpdateScoreEvent : UnityEngine.Events.UnityEvent<ScoreInfo> {}
+    public class UpdateScoreEvent : UnityEngine.Events.UnityEvent<ScoreInfo> { }
+
 }
