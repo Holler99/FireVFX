@@ -13,7 +13,8 @@ namespace FGOP1_Utilities.StateMachine
         public UnityEvent StateUpdate;
         public UnityEvent StateExit;
 
-        //[HideInInspector]
+        [HideInInspector]
+        public SimpleStateMachine simpleStateMachine;
         public virtual void OnStart()
         {
             StateEnter.Invoke();
