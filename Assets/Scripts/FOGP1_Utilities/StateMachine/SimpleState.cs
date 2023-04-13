@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace FGOP1_Utilities.StateMachine
+namespace FOGP1_Utilities.StateMachine
 {
-    [System.Serializeable]
+    [System.Serializable]
     public class SimpleState
     {
         [Header("State Event")]

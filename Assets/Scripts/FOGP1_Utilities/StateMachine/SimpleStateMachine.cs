@@ -15,7 +15,7 @@ namespace FOGP1_Utilities.StateMachine
         protected SimpleState state = null;
 
 
-        protected void SetState(SimpleStateMachine _state)
+        protected void SetState(SimpleState _state)
         {
             if (state != null)
             {
